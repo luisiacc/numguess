@@ -3,16 +3,19 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import qdarkstyle
 import logic
+import icon
 
 class MainForm(QWidget):
     def __init__(self):
         super(MainForm, self).__init__()
+        self.setWindowIcon(QIcon(':numguess_1.png'))
 
         self.setWindowFlags(Qt.MSWindowsFixedSizeDialogHint)
         self.row_count = 0
 
         self.entered_data()
-
+        self.progressBar = QProgressBar()
+        self.progressBar.setValue (0)
         self.mainLayout = QVBoxLayout(self)
         self.buttonsLayout = QHBoxLayout()
         # elements
@@ -29,6 +32,7 @@ class MainForm(QWidget):
         self.mainLayout.addWidget(self.parameters_box())
         self.mainLayout.addLayout(self.buttonsLayout)
         self.mainLayout.addLayout(self.fieldsLay)
+        self.mainLayout.addWidget(self.progressBar)
 
         action.finished.connect(self.updateResults)
 
@@ -87,10 +91,11 @@ class MainForm(QWidget):
         self.row_count += 1
 
         AI.addStatistics(str(self.numberEdit.value()), self.bullSpin.value (), self.cowsSpin.value ())
-        action.wait()
+
         action.start()
 
     def resetFields(self):
+        self.progressBar.setValue(0)
         self.viewEntrance.clear()
         self.viewEntrance.setHorizontalHeaderLabels (['Números', 'Toros', 'Vacas'])
         self.viewEntrance.setRowCount(1)
@@ -105,7 +110,10 @@ class MainForm(QWidget):
 
     def updateResults(self, li):
         self.viewResults.clear()
+        self.progressBar.setMaximum(len(li))
+        self.progressBar.setValue(0)
         for elem in li:
+            self.progressBar.setValue(self.progressBar.value()+1)
             self.viewResults.append(elem)
 
     def updateLogic(self):

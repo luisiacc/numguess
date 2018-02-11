@@ -154,5 +154,9 @@ class Results:
 if __name__ == '__main__':
 
     a = Results()
-    a.addStatistics('1234', 2, 0)
+    a.addStatistics('1234', 0, 2)
+    a.addStatistics('5678', 0, 2)
+    a.addStatistics('6532', 0, 3)
+    a.addStatistics('2356', 2, 1)
+    a.addStatistics('3156', 3, 0)
     print(a.resolve())
