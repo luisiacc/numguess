@@ -30,6 +30,8 @@ class MainForm(QWidget):
         self.mainLayout.addLayout(self.buttonsLayout)
         self.mainLayout.addLayout(self.fieldsLay)
 
+        action.finished.connect(self.updateResults)
+
 
     def parameters_box(self):
         box = QGroupBox('Datos')
@@ -84,6 +86,9 @@ class MainForm(QWidget):
         self.viewEntrance.setItem (self.row_count, 2, QTableWidgetItem (str (self.cowsSpin.value ())))
         self.row_count += 1
 
+        AI.addStatistics(str(self.numberEdit.value()), self.bullSpin.value (), self.cowsSpin.value ())
+        action.wait()
+        action.start()
 
     def resetFields(self):
         self.viewEntrance.clear()
@@ -94,9 +99,32 @@ class MainForm(QWidget):
         self.numberEdit.setValue(1023)
         self.cowsSpin.setValue(0)
         self.bullSpin.setValue(0)
+        AI.results = AI.numTable
+        AI.statistics = []
+        action.finished.connect (self.updateResults)
 
+    def updateResults(self, li):
+        self.viewResults.clear()
+        for elem in li:
+            self.viewResults.append(elem)
+
+    def updateLogic(self):
+        pass
+
+class ActionThread(QThread):
+    finished = pyqtSignal(list)
+    def __init__(self):
+        super(ActionThread, self).__init__()
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        self.finished.emit(AI.resolve())
 
 if __name__ == '__main__':
+    AI = logic.Results()
+    action = ActionThread()
     app = QApplication([])
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     form = MainForm()

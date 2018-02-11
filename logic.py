@@ -1,5 +1,4 @@
 #
-import random
 import itertools
 
 def dif(li1=[], li2=[]):
@@ -64,14 +63,21 @@ class Results:
                 num=str(num)
                 for _number in self.results:
                     if b and c:
-                        pass
+                        if self.hasCows(_number, num) != c and \
+                                self.hasBulls(_number, num) != b:
+                            self.killValue(_number)
                     elif b:
-                        pass
+                        self.KillxBull(num, b)
                     elif c:
+                        self.results = dif(self.results, self.bulls0(num))
                         if c == 4:
-                            self.results = interception(self.cows4(), self.results)
+                            self.results = interception(self.cows4(num), self.results)
+                        else:
+                            self.KillxCow(num, c)
+
                     else:
                         self.allIs0(num)
+            return self.results
         else:
             return False
 
@@ -80,6 +86,12 @@ class Results:
         for item in itertools.permutations (num):
             _li.append (''.join (x for x in item))
         return _li
+
+    def killValue(self, value):
+        try:
+            self.results.remove (value)
+        except ValueError:
+            pass
 
     def same_pos(self, n, m):
         for _int in range(len(n)):
@@ -104,13 +116,13 @@ class Results:
         # Obtain number of cows that has num2 on num1
         # num1: num to determine cows
         # num2: num with data
-        _with_cows = 0
+        _cows = 0
         for it in range(len(num2)):
             if num2[it] in num1:
                 if num2[it] != num1[it]:
-                    _with_cows += 1
+                    _cows += 1
 
-        return _with_cows
+        return _cows
 
     def hasBulls(self, num1, num2):
         # num1: num to determine bulls
@@ -122,6 +134,25 @@ class Results:
 
         return _bulls
 
-a = Results()
-print(a.hasBulls('1234', '1043'))
+    def bulls0(self, num):
+        _li = []
+        for elem in self.results:
+            if self.same_pos(num, elem):
+                _li.append(elem)
+        return _li
 
+    def KillxCow(self, num, cows):
+        for elem in self.results:
+            if self.hasCows(elem, num) != cows:
+                self.killValue (elem)
+
+    def KillxBull(self, num, bull):
+        for elem in self.results:
+            if self.hasBulls(elem, num) != bull:
+                self.killValue(elem)
+
+if __name__ == '__main__':
+
+    a = Results()
+    a.addStatistics('1234', 2, 0)
+    print(a.resolve())
