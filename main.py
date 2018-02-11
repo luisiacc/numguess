@@ -1,6 +1,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+import qdarkstyle
 import logic
 
 class MainForm(QWidget):
@@ -36,7 +37,7 @@ class MainForm(QWidget):
         self.numberLabel = QLabel('Número')
         self.numberEdit = QSpinBox()
         self.numberEdit.setMaximum(9999)
-        self.numberEdit.setMinimum(1000)
+        self.numberEdit.setMinimum(1023)
         self.cowsLabel = QLabel('Vacas')
         self.cowsSpin = QSpinBox()
         self.cowsSpin.setMaximum(4)
@@ -57,7 +58,7 @@ class MainForm(QWidget):
     def entered_data(self):
         TableLabel = QLabel('Historial')
         self.viewEntrance = QTableWidget()
-        self.viewEntrance.setFixedWidth(200)
+        self.viewEntrance.setFixedWidth(235)
         self.viewEntrance.setColumnCount(3)
         self.viewEntrance.setRowCount(1)
         self.viewEntrance.setRowHeight(0, 20)
@@ -97,7 +98,7 @@ class MainForm(QWidget):
 
 if __name__ == '__main__':
     app = QApplication([])
-    app.setStyle(QProxyStyle('Fusion'))
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     form = MainForm()
     form.show()
     app.exec_()
