@@ -66,10 +66,10 @@ class Results:
                     if b and c:
                         pass
                     elif b:
-                        if b == 4:
-                            self.results = interception(self.cows4(), self.results)
-                    elif c:
                         pass
+                    elif c:
+                        if c == 4:
+                            self.results = interception(self.cows4(), self.results)
                     else:
                         self.allIs0(num)
         else:
@@ -100,5 +100,28 @@ class Results:
     def allIs0(self, num):
         self.remove_with(num)
 
+    def hasCows(self, num1, num2):
+        # Obtain number of cows that has num2 on num1
+        # num1: num to determine cows
+        # num2: num with data
+        _with_cows = 0
+        for it in range(len(num2)):
+            if num2[it] in num1:
+                if num2[it] != num1[it]:
+                    _with_cows += 1
+
+        return _with_cows
+
+    def hasBulls(self, num1, num2):
+        # num1: num to determine bulls
+        # num2: num with data
+        _bulls = 0
+        for it in range(len(num2)):
+            if num1[it] == num2[it]:
+                _bulls += 1
+
+        return _bulls
+
 a = Results()
+print(a.hasBulls('1234', '1043'))
 
