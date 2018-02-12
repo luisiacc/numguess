@@ -60,12 +60,14 @@ class Results:
     def resolve(self):
         if self.statistics:
             for num, b, c in self.statistics:
+                _temp = []
                 num=str(num)
                 for _number in self.results:
+
                     if b and c:
-                        if self.hasCows(_number, num) != c and \
-                                self.hasBulls(_number, num) != b:
-                            self.killValue(_number)
+                        if self.hasCows(_number, num) == c and \
+                                self.hasBulls(_number, num) == b:
+                            _temp.append(_number)
                     elif b:
                         self.KillxBull(num, b)
                     elif c:
@@ -77,6 +79,8 @@ class Results:
 
                     else:
                         self.allIs0(num)
+            if _temp:
+                self.results = interception (self.results, _temp)
             return self.results
         else:
             return False
@@ -152,11 +156,7 @@ class Results:
                 self.killValue(elem)
 
 if __name__ == '__main__':
-
     a = Results()
+
     a.addStatistics('1234', 0, 2)
-    a.addStatistics('5678', 0, 2)
-    a.addStatistics('6532', 0, 3)
-    a.addStatistics('2356', 2, 1)
-    a.addStatistics('3156', 3, 0)
     print(a.resolve())

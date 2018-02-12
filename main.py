@@ -54,10 +54,10 @@ class MainForm(QWidget):
         self.lay = QGridLayout(box)
         self.lay.addWidget(self.numberLabel, 0, 0)
         self.lay.addWidget(self.numberEdit, 1, 0)
-        self.lay.addWidget(self.cowsLabel, 0, 1)
-        self.lay.addWidget(self.cowsSpin, 1, 1)
-        self.lay.addWidget(self.bullLabel, 0, 2)
-        self.lay.addWidget(self.bullSpin, 1, 2)
+        self.lay.addWidget(self.cowsLabel, 0, 2)
+        self.lay.addWidget(self.cowsSpin, 1, 2)
+        self.lay.addWidget(self.bullLabel, 0, 1)
+        self.lay.addWidget(self.bullSpin, 1, 1)
 
         return box
 
@@ -116,8 +116,12 @@ class MainForm(QWidget):
             self.progressBar.setValue(self.progressBar.value()+1)
             self.viewResults.append(elem)
 
+        if not self.viewResults.toPlainText():
+            QMessageBox.information(self, 'Error', 'Pusiste un dato mal soquete')
+
     def updateLogic(self):
         pass
+
 
 class ActionThread(QThread):
     finished = pyqtSignal(list)

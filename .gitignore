@@ -1,3 +1,5 @@
 *.pyc
 *.xml
 *.iml
+set_ops.py
+tableex.py
