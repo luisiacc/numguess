@@ -91,22 +91,22 @@ class MainForm(QWidget):
         self.row_count += 1
 
         AI.addStatistics(str(self.numberEdit.value()), self.bullSpin.value (), self.cowsSpin.value ())
-
+        action.wait()
         action.start()
 
     def resetFields(self):
-        self.progressBar.setValue(0)
+        self.progressBar.setValue(1)
+        self.progressBar.update()
         self.viewEntrance.clear()
         self.viewEntrance.setHorizontalHeaderLabels (['Números', 'Toros', 'Vacas'])
         self.viewEntrance.setRowCount(1)
         self.row_count = 0
-        self.viewResults.clear()
+        self.viewResults.setText('')
         self.numberEdit.setValue(1023)
         self.cowsSpin.setValue(0)
         self.bullSpin.setValue(0)
         AI.results = AI.numTable
         AI.statistics = []
-        action.finished.connect (self.updateResults)
 
     def updateResults(self, li):
         self.viewResults.clear()
