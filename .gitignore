@@ -3,3 +3,5 @@
 *.iml
 set_ops.py
 tableex.py
+__pycache__/
+.idea/
